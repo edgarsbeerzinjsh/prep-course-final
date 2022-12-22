@@ -83,6 +83,11 @@ export class Snake {
   }
 
   isTakenBySnake(cell: Cell): boolean {
+    for (let i = 0; i < this.tail.length; i++) {
+      if (this.tail[i].x === cell.x && this.tail[i].y === cell.y) {
+        return true;
+      }
+    }
     return false;
   }
 }

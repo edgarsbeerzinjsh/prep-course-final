@@ -10,22 +10,36 @@ describe("Game Field", () => {
     expect(apples.length).toBe(5);
   });
 
-  // it("No apples on field", () => {
-  //   const field = new GameField();
+  it("See when get to apple", () => {
+    const field = new GameField();
 
-  //   const apples = field.getApples();
+    const apple = field.getApples()[0];
 
-  //   expect(apples.length).toBe();
-  // });
+    expect(field.isAppleInside(apple)).toBe(true);
+  });
 
-  it("Grow when get to apple", () => {
+  it("Eat apple when get to it", () => {
+    const field = new GameField();
+
+    const apple = field.getApples()[0];
+    const apple2 = field.getApples()[1];
+    field.removeApple(apple);
+    expect(apple2).toEqual(field.getApples()[0]);
+  });
+  it("No apples on field -> runs seed", () => {
     const field = new GameField();
 
     const apples = field.getApples();
-    //field.isAppleInside(new Cell(20, 16));
+    field.removeApple(apples[0]);
+    field.removeApple(apples[0]);
+    field.removeApple(apples[0]);
+    field.removeApple(apples[0]);
+    field.removeApple(apples[0]);
+    expect(apples.length).toBe(0);
+    expect(field.isEmpty()).toBe(true);
 
-    //expect(field.isAppleInside()).toEqual(new Cell(6, 0));
-
-    //expect(apples.length).toBe(5);
+    field.seed();
+    const nextLevel = field.getApples();
+    expect(nextLevel.length).toBe(5);
   });
 });

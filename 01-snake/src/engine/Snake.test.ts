@@ -12,7 +12,7 @@ describe("Snake", () => {
   it("should move right", () => {
     const snake = new Snake();
 
-    snake.move()
+    snake.move();
 
     expect(snake.getHead()).toEqual(new Cell(3, 0));
     expect(snake.getTail()).toEqual([new Cell(1, 0), new Cell(2, 0)]);
@@ -21,26 +21,26 @@ describe("Snake", () => {
   it("should move down", () => {
     const snake = new Snake();
 
-    snake.setDirection("Down")    
-    snake.move()
+    snake.setDirection("Down");
+    snake.move();
 
     expect(snake.getDirection()).toEqual("Down");
     expect(snake.getHead()).toEqual(new Cell(2, 1));
     expect(snake.getTail()).toEqual([new Cell(1, 0), new Cell(2, 0)]);
   });
-  
+
   it("does not move in opposite direction", () => {
     const snake = new Snake();
 
-    snake.setDirection("Right")    
-    snake.move()
-    snake.move()
+    snake.setDirection("Right");
+    snake.move();
+    snake.move();
     expect(snake.getDirection()).toEqual("Right");
     expect(snake.getHead()).toEqual(new Cell(4, 0));
     expect(snake.getTail()).toEqual([new Cell(2, 0), new Cell(3, 0)]);
 
-    snake.setDirection("Left")    
-    snake.move()
+    snake.setDirection("Left");
+    snake.move();
     expect(snake.getDirection()).toEqual("Right");
     expect(snake.getHead()).toEqual(new Cell(5, 0));
     expect(snake.getTail()).toEqual([new Cell(3, 0), new Cell(4, 0)]);
@@ -49,20 +49,43 @@ describe("Snake", () => {
   it("grows when gets to x = 6, y = 0", () => {
     const snake = new Snake();
 
-    snake.setDirection("Right")    
-    snake.move()
-    snake.move()
-    snake.move()
-    snake.move()
-    //expect(snake.getDirection()).toEqual("Right");
+    snake.setDirection("Right");
+    snake.move();
+    snake.move();
+    snake.move();
+    snake.move();
+
     expect(snake.getHead()).toEqual(new Cell(6, 0));
     expect(snake.getTail()).toEqual([new Cell(4, 0), new Cell(5, 0)]);
-    snake.grow()
-    snake.move()
-    snake.move()
-    snake.move()
-    snake.move()
+    snake.grow();
+    snake.move();
+    snake.move();
+    snake.move();
+    snake.move();
     expect(snake.getHead()).toEqual(new Cell(10, 0));
-    expect(snake.getTail()).toEqual([new Cell(5, 0), new Cell(6, 0), new Cell(7, 0), new Cell(8, 0), new Cell(9, 0)]);
+    expect(snake.getTail()).toEqual([
+      new Cell(5, 0),
+      new Cell(6, 0),
+      new Cell(7, 0),
+      new Cell(8, 0),
+      new Cell(9, 0),
+    ]);
+  });
+
+  it("dies when bites its tail", () => {
+    const snake = new Snake();
+
+    snake.setDirection("Right");
+    snake.grow();
+    snake.move();
+    snake.move();
+    snake.move();
+    snake.setDirection("Down");
+    snake.move();
+    snake.setDirection("Left");
+    snake.move();
+    snake.setDirection("Up");
+    snake.move();
+    expect(snake.isTakenBySnake(new Cell(4, 0))).toBe(true);
   });
 });
